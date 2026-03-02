@@ -3,48 +3,9 @@ import clsx from 'clsx';
 import usePreferencesStore from '@/features/Preferences/store/usePreferencesStore';
 import { buttonBorderStyles } from '@/shared/lib/styles';
 import { useHasFinePointer } from '@/shared/hooks/useHasFinePointer';
-import { CURSOR_TRAIL_EFFECTS, CLICK_EFFECTS } from '../../data/effects/effectsData';
+import { EFFECTS } from '../../data/effects/effectsData';
 import CollapsibleSection from '../shared/CollapsibleSection';
 import { MousePointer2, Zap } from 'lucide-react';
-
-const CLICK_EFFECT_MANUAL_ORDER = [
-  'none',
-  'moon',
-  'festival',
-  'ramen',
-  'fish',
-  'senbei',
-  'bamboo',
-  'sakura',
-  'hina',
-  'lantern',
-  'chopsticks',
-  'snowflake',
-  'fuji',
-  'lotus',
-  'castle',
-  'sparkle',
-  'carp',
-  'maple',
-  'tea',
-  'torii',
-  'star',
-  'butterfly',
-  'wave',
-  'fan',
-  'sushi',
-  'firework',
-  'rice',
-  'wind',
-  'blossom',
-  'dango',
-  'kitsune',
-] as const;
-
-const clickEffectById = new Map(CLICK_EFFECTS.map(effect => [effect.id, effect]));
-const ORDERED_CLICK_EFFECTS = CLICK_EFFECT_MANUAL_ORDER.map(
-  id => clickEffectById.get(id)!,
-);
 
 function EffectCard({
   name,
@@ -110,7 +71,7 @@ const Effects = () => {
           storageKey='prefs-effects-cursor'
         >
           <fieldset className='grid grid-cols-4 gap-3 p-1 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7'>
-            {CURSOR_TRAIL_EFFECTS.map(effect => (
+            {EFFECTS.map(effect => (
               <EffectCard
                 key={effect.id}
                 name={effect.name}
@@ -132,7 +93,7 @@ const Effects = () => {
         storageKey='prefs-effects-click'
       >
         <fieldset className='grid grid-cols-4 gap-3 p-1 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7'>
-          {ORDERED_CLICK_EFFECTS.map(effect => (
+          {EFFECTS.map(effect => (
             <EffectCard
               key={effect.id}
               name={effect.name}
