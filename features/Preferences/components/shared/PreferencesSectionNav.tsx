@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/shared/lib/utils';
 import { Joystick, Palette, Wand2 } from 'lucide-react';
 
-const SECTION_OFFSET = 112;
+const ACTIVE_SECTION_OFFSET = 156;
 
 type SectionId = 'behavior' | 'display' | 'effects';
 
@@ -39,48 +39,49 @@ const PreferencesSectionNav = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const sectionElements = sections
-      .map(section => document.getElementById(section.id))
-      .filter((element): element is HTMLElement => Boolean(element));
+    const getSectionElements = () =>
+      sections
+        .map(section => document.getElementById(section.id))
+        .filter((element): element is HTMLElement => Boolean(element));
 
-    if (sectionElements.length === 0) return;
+    const updateActiveSection = () => {
+      const sectionElements = getSectionElements();
+      if (sectionElements.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      entries => {
-        const visibleEntries = entries
-          .filter(entry => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(a.boundingClientRect.top) -
-              Math.abs(b.boundingClientRect.top),
-          );
+      const sectionAtOffset = sectionElements.find(sectionElement => {
+        const rect = sectionElement.getBoundingClientRect();
+        return (
+          rect.top <= ACTIVE_SECTION_OFFSET &&
+          rect.bottom > ACTIVE_SECTION_OFFSET
+        );
+      });
 
-        if (visibleEntries.length === 0) return;
+      const nextActiveSection = sectionAtOffset
+        ? (sectionAtOffset.id as SectionId)
+        : sectionElements
+            .filter(
+              sectionElement =>
+                sectionElement.getBoundingClientRect().top <=
+                ACTIVE_SECTION_OFFSET,
+            )
+            .at(-1)?.id || (sectionElements[0].id as SectionId);
 
-        const nextId = visibleEntries[0].target.id as SectionId;
-        setActiveSection(nextId);
-      },
-      {
-        rootMargin: '-96px 0px -55% 0px',
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
+      setActiveSection(currentSection =>
+        currentSection === nextActiveSection
+          ? currentSection
+          : nextActiveSection,
+      );
+    };
 
-    sectionElements.forEach(element => observer.observe(element));
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection);
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+    };
   }, []);
-
-  const scrollToSection = (sectionId: SectionId) => {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    setActiveSection(sectionId);
-
-    const top =
-      section.getBoundingClientRect().top + window.scrollY - SECTION_OFFSET;
-    window.scrollTo({ top, behavior: 'smooth' });
-  };
 
   return (
     <div className='sticky top-2 z-40'>
@@ -103,21 +104,21 @@ const PreferencesSectionNav = () => {
                     }}
                   />
                 )}
-                <button
-                  type='button'
-                  onClick={() => scrollToSection(section.id)}
+                <a
+                  href={`#${section.id}`}
+                  onClick={() => setActiveSection(section.id)}
                   className={cn(
-                    'relative z-10 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 pt-2 pb-4 text-sm font-semibold transition-colors duration-300 sm:px-5',
+                    'relative z-10 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 pt-2 pb-4 text-sm font-semibold no-underline transition-colors duration-300 sm:px-5',
                     isSelected
                       ? 'text-(--background-color)'
                       : 'text-(--secondary-color)/70 hover:text-(--main-color)',
                   )}
                   aria-label={section.label}
-                  aria-current={isSelected ? 'true' : undefined}
+                  aria-current={isSelected ? 'location' : undefined}
                 >
                   <Icon className='h-5 w-5 shrink-0' />
                   <span className='hidden sm:inline'>{section.label}</span>
-                </button>
+                </a>
               </div>
             );
           })}

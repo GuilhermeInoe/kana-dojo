@@ -11,6 +11,7 @@ interface CollapsibleSectionProps {
   defaultOpen?: boolean;
   level?: 'section' | 'subsection' | 'subsubsection';
   className?: string;
+  id?: string;
   /** Unique ID for session storage persistence */
   storageKey?: string;
   /** When true, applies a full border to the header instead of just a bottom border */
@@ -45,6 +46,7 @@ const CollapsibleSection = ({
   defaultOpen = true,
   level = 'section',
   className,
+  id,
   storageKey,
   fullBorder = false,
 }: CollapsibleSectionProps) => {
@@ -76,7 +78,10 @@ const CollapsibleSection = ({
   };
 
   return (
-    <div className={clsx('flex flex-col', styles.gap, className)}>
+    <div
+      id={id}
+      className={clsx('flex scroll-mt-28 flex-col', styles.gap, className)}
+    >
       <button
         className={clsx(
           'group flex w-full flex-row items-center gap-2 text-left',

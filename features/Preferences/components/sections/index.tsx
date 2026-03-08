@@ -24,69 +24,66 @@ const Settings = () => {
     <div className='flex flex-col gap-6'>
       <PreferencesSectionNav />
 
-      <div id='behavior' className='scroll-mt-28'>
-        {/* Behavior Section */}
-        <CollapsibleSection
-          title='Behavior'
-          fullBorder
-          icon={<Joystick size={28} />}
-          level='section'
-          defaultOpen={true}
-          storageKey='prefs-behavior'
-        >
-          <Behavior />
-        </CollapsibleSection>
-      </div>
+      {/* Behavior Section */}
+      <CollapsibleSection
+        id='behavior'
+        title='Behavior'
+        fullBorder
+        icon={<Joystick size={28} />}
+        level='section'
+        defaultOpen={true}
+        storageKey='prefs-behavior'
+      >
+        <Behavior />
+      </CollapsibleSection>
 
-      <div id='display' className='scroll-mt-28'>
-        {/* Display Section */}
-        <CollapsibleSection
-          title='Display'
-          fullBorder
-          icon={<Palette size={28} />}
-          level='section'
-          defaultOpen={true}
-          storageKey='prefs-display'
-        >
-          <div className='flex flex-col gap-6'>
-            {/* Themes Subsection */}
-            <CollapsibleSection
-              title='Themes'
-              icon={<Sparkles size={22} />}
-              level='subsection'
-              defaultOpen={true}
-              storageKey='prefs-themes'
-            >
-              <Themes />
-            </CollapsibleSection>
+      {/* Display Section */}
+      <CollapsibleSection
+        id='display'
+        title='Display'
+        fullBorder
+        icon={<Palette size={28} />}
+        level='section'
+        defaultOpen={true}
+        storageKey='prefs-display'
+      >
+        <div className='flex flex-col gap-6'>
+          {/* Themes Subsection */}
+          <CollapsibleSection
+            title='Themes'
+            icon={<Sparkles size={22} />}
+            level='subsection'
+            defaultOpen={true}
+            storageKey='prefs-themes'
+          >
+            <Themes />
+          </CollapsibleSection>
 
-            {/* Fonts Subsection */}
-            <CollapsibleSection
-              title='Fonts'
-              icon={<CaseSensitive size={28} />}
-              level='subsection'
-              defaultOpen={true}
-              storageKey='prefs-fonts'
-            >
-              <Fonts />
-            </CollapsibleSection>
-          </div>
-        </CollapsibleSection>
-      </div>
+          {/* Fonts Subsection */}
+          <CollapsibleSection
+            title='Fonts'
+            icon={<CaseSensitive size={28} />}
+            level='subsection'
+            defaultOpen={true}
+            storageKey='prefs-fonts'
+          >
+            <Fonts />
+          </CollapsibleSection>
+        </div>
+      </CollapsibleSection>
 
-      <div id='effects' className='scroll-mt-28'>
-        {/* Effects Section */}
-        <CollapsibleSection
-          title='Effects'
-          fullBorder
-          icon={<Wand2 size={28} />}
-          level='section'
-          defaultOpen={true}
-          storageKey='prefs-effects'
-        >
-          <Effects />
-        </CollapsibleSection>
-      </div>
+      {/* Effects Section */}
+      <CollapsibleSection
+        id='effects'
+        title='Effects'
+        fullBorder
+        icon={<Wand2 size={28} />}
+        level='section'
+        defaultOpen={true}
+        storageKey='prefs-effects'
+      >
+        <Effects />
+      </CollapsibleSection>
 
       {/* Goal Timers section - commented out
       <CollapsibleSection
