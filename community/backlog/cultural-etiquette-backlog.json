@@ -276,7 +276,7 @@
     "note": "謙遜表現が好まれる。",
     "id": 31,
     "issued": false,
-    "completed": false
+    "completed": true
   },
   {
     "situation": "遅刻時 2",
@@ -293,7 +293,7 @@
     "dont": "禁止場所で撮影する",
     "note": "御本尊周辺は撮影不可が多い。",
     "id": 33,
-    "issued": false,
+    "issued": true,
     "completed": false
   },
   {
